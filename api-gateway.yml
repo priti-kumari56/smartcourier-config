@@ -1,0 +1,23 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/gateway/auth/**
+        - id: delivery-service
+          uri: lb://delivery-service
+          predicates:
+            - Path=/gateway/deliveries/**
+        - id: tracking-service
+          uri: lb://tracking-service
+          predicates:
+            - Path=/gateway/tracking/**
+        - id: admin-service
+          uri: lb://admin-service
+          predicates:
+            - Path=/gateway/admin/**
