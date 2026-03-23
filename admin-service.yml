@@ -2,12 +2,30 @@ server:
   port: 8084
 
 spring:
+  application:
+    name: admin-service
   datasource:
     url: jdbc:mysql://localhost:3306/admin_db?createDatabaseIfNotExist=true
     username: root
-    password: your_password_here
+    password: Priti@05
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
     open-in-view: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
