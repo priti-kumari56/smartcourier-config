@@ -1,6 +1,5 @@
 server:
   port: 8081
-
 spring:
   application:
     name: auth-service
@@ -13,11 +12,9 @@ spring:
       ddl-auto: update
     show-sql: true
     open-in-view: false
-
 jwt:
   secret: smartcourier_jwt_secret_key_must_be_32_chars_min_123
   expiration: 86400000
-
 management:
   endpoints:
     web:
@@ -26,12 +23,12 @@ management:
   endpoint:
     health:
       show-details: always
-
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
   instance:
-    prefer-ip-address: true
+    prefer-ip-address: false
+    hostname: localhost
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 30
