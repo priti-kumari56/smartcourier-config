@@ -38,3 +38,8 @@ eureka:
     hostname: localhost
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 30
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
