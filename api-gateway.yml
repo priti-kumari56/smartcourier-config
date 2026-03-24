@@ -75,12 +75,13 @@ eureka:
     lease-expiration-duration-in-seconds: 30
 springdoc:
   swagger-ui:
+    path: /swagger-ui.html
     urls:
       - name: auth-service
-        url: /gateway/auth/v3/api-docs
+        url: http://localhost:8081/v3/api-docs
       - name: delivery-service
-        url: /gateway/deliveries/v3/api-docs
+        url: http://localhost:8082/v3/api-docs
       - name: tracking-service
-        url: /gateway/tracking/v3/api-docs
+        url: http://localhost:8083/v3/api-docs
       - name: admin-service
-        url: /gateway/admin/v3/api-docs
+        url: http://localhost:8084/v3/api-docs
