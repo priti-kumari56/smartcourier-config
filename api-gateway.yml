@@ -15,21 +15,18 @@ spring:
                 - Path=/gateway/auth/**
               filters:
                 - StripPrefix=1
-
             - id: delivery-service
               uri: lb://DELIVERY-SERVICE
               predicates:
                 - Path=/gateway/deliveries/**
               filters:
                 - StripPrefix=1
-
             - id: tracking-service
               uri: lb://TRACKING-SERVICE
               predicates:
                 - Path=/gateway/tracking/**
               filters:
                 - StripPrefix=1
-
             - id: admin-service
               uri: lb://ADMIN-SERVICE
               predicates:
@@ -45,3 +42,12 @@ eureka:
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 30
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
