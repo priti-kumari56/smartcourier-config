@@ -80,3 +80,7 @@ resilience4j:
         timeout-duration: 3s
       TRACKING-SERVICE:
         timeout-duration: 3s
+
+jwt:
+  secret: same-secret-jo-auth-mein-hai
+  expiration: 86400000
