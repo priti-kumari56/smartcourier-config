@@ -1,5 +1,6 @@
 server:
   port: 8083
+
 spring:
   application:
     name: tracking-service
@@ -19,8 +20,14 @@ spring:
           default:
             connect-timeout: 5000
             read-timeout: 5000
+      circuitbreaker:
+        enabled: true
+        group:
+          enabled: true
+
 file:
   upload-dir: uploads/documents
+
 management:
   endpoints:
     web:
@@ -29,6 +36,10 @@ management:
   endpoint:
     health:
       show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
+
 eureka:
   client:
     service-url:
@@ -38,8 +49,26 @@ eureka:
     hostname: localhost
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 30
+
 springdoc:
   api-docs:
     path: /v3/api-docs
   swagger-ui:
     path: /swagger-ui.html
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      DELIVERY-SERVICE:
+        sliding-window-size: 10
+        sliding-window-type: COUNT_BASED
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 5s
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+        register-health-indicator: true
+  timelimiter:
+    instances:
+      DELIVERY-SERVICE:
+        timeout-duration: 3s
