@@ -22,6 +22,8 @@ spring:
             read-timeout: 5000
       circuitbreaker:
         enabled: true
+        group:
+          enabled: true
 
 management:
   endpoints:
@@ -54,13 +56,27 @@ springdoc:
 resilience4j:
   circuitbreaker:
     instances:
-      trackingService:
-        sliding-window-size: 5
+      AUTH-SERVICE:
+        sliding-window-size: 10
+        sliding-window-type: COUNT_BASED
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 5s
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+        register-health-indicator: true
+      TRACKING-SERVICE:
+        sliding-window-size: 10
+        sliding-window-type: COUNT_BASED
+        minimum-number-of-calls: 5
         failure-rate-threshold: 50
         wait-duration-in-open-state: 10s
         permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
         register-health-indicator: true
   timelimiter:
     instances:
-      trackingService:
+      AUTH-SERVICE:
+        timeout-duration: 3s
+      TRACKING-SERVICE:
         timeout-duration: 3s
