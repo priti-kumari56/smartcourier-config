@@ -82,5 +82,5 @@ resilience4j:
         timeout-duration: 3s
 
 jwt:
-  secret: same-secret-jo-auth-mein-hai
+  secret: smartcourier_jwt_secret_key_must_be_32_chars_min_123
   expiration: 86400000
