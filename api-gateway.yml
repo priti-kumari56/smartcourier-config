@@ -11,6 +11,7 @@ spring:
           enabled: true
           lower-case-service-id: true
       routes:
+        # Standard Service Routes
         - id: auth-service
           uri: lb://AUTH-SERVICE
           predicates:
@@ -35,6 +36,14 @@ spring:
             - Path=/gateway/admin/**
           filters:
             - StripPrefix=1
+        - id: notification-service
+          uri: lb://NOTIFICATION-SERVICE
+          predicates:
+            - Path=/gateway/notifications/**
+          filters:
+            - StripPrefix=1
+
+        # Swagger Documentation Routes (StripPrefix=2 to reach /v3/api-docs)
         - id: auth-service-docs
           uri: lb://AUTH-SERVICE
           predicates:
@@ -59,6 +68,12 @@ spring:
             - Path=/gateway/admin/v3/api-docs
           filters:
             - StripPrefix=2
+        - id: notification-service-docs
+          uri: lb://NOTIFICATION-SERVICE
+          predicates:
+            - Path=/gateway/notifications/v3/api-docs
+          filters:
+            - StripPrefix=2
 
 management:
   endpoints:
@@ -73,15 +88,15 @@ management:
       probability: 1.0
   zipkin:
     tracing:
-      endpoint: http://localhost:9411/api/v2/spans
+      # Note: Defaulting to 'zipkin' hostname for Docker stability
+      endpoint: http://zipkin:9411/api/v2/spans
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://eureka-server:8761/eureka/
   instance:
-    prefer-ip-address: false
-    hostname: localhost
+    prefer-ip-address: true
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 30
 
@@ -89,11 +104,13 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
     urls:
-      - name: auth-service
+      - name: Auth-Service
         url: /gateway/auth/v3/api-docs
-      - name: delivery-service
+      - name: Delivery-Service
         url: /gateway/deliveries/v3/api-docs
-      - name: tracking-service
+      - name: Tracking-Service
         url: /gateway/tracking/v3/api-docs
-      - name: admin-service
+      - name: Admin-Service
         url: /gateway/admin/v3/api-docs
+      - name: Notification-Service
+        url: /gateway/notifications/v3/api-docs
