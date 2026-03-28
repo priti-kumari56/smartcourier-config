@@ -1,6 +1,5 @@
 server:
   port: 8080
-
 spring:
   application:
     name: api-gateway
@@ -11,7 +10,6 @@ spring:
           enabled: true
           lower-case-service-id: true
       routes:
-        # Standard Service Routes
         - id: auth-service
           uri: lb://AUTH-SERVICE
           predicates:
@@ -42,8 +40,6 @@ spring:
             - Path=/gateway/notifications/**
           filters:
             - StripPrefix=1
-
-        # Swagger Documentation Routes (StripPrefix=2 to reach /v3/api-docs)
         - id: auth-service-docs
           uri: lb://AUTH-SERVICE
           predicates:
@@ -74,7 +70,6 @@ spring:
             - Path=/gateway/notifications/v3/api-docs
           filters:
             - StripPrefix=2
-
 management:
   endpoints:
     web:
@@ -88,18 +83,15 @@ management:
       probability: 1.0
   zipkin:
     tracing:
-      # Note: Defaulting to 'zipkin' hostname for Docker stability
-      endpoint: http://zipkin:9411/api/v2/spans
-
+      endpoint: http://${ZIPKIN_HOST:localhost}:9411/api/v2/spans
 eureka:
   client:
     service-url:
-      defaultZone: http://eureka-server:8761/eureka/
+      defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka/
   instance:
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 30
-
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
