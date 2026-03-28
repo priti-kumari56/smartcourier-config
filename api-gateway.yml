@@ -1,61 +1,64 @@
 server:
   port: 8080
+
 spring:
   application:
     name: api-gateway
   cloud:
     gateway:
-      server:
-        webflux:
-          routes:
-            - id: auth-service
-              uri: lb://AUTH-SERVICE
-              predicates:
-                - Path=/gateway/auth/**
-              filters:
-                - StripPrefix=1
-            - id: delivery-service
-              uri: lb://DELIVERY-SERVICE
-              predicates:
-                - Path=/gateway/deliveries/**
-              filters:
-                - StripPrefix=1
-            - id: tracking-service
-              uri: lb://TRACKING-SERVICE
-              predicates:
-                - Path=/gateway/tracking/**
-              filters:
-                - StripPrefix=1
-            - id: admin-service
-              uri: lb://ADMIN-SERVICE
-              predicates:
-                - Path=/gateway/admin/**
-              filters:
-                - StripPrefix=1
-            - id: auth-service-docs
-              uri: lb://AUTH-SERVICE
-              predicates:
-                - Path=/gateway/auth/v3/api-docs
-              filters:
-                - StripPrefix=2
-            - id: delivery-service-docs
-              uri: lb://DELIVERY-SERVICE
-              predicates:
-                - Path=/gateway/deliveries/v3/api-docs
-              filters:
-                - StripPrefix=2
-            - id: tracking-service-docs
-              uri: lb://TRACKING-SERVICE
-              predicates:
-                - Path=/gateway/tracking/v3/api-docs
-              filters:
-                - StripPrefix=2
-            - id: admin-service-docs
-              uri: lb://ADMIN-SERVICE
-              predicates:
-                - Path=/gateway/admin/v3/api-docs
-              filters:
-                - StripPrefix=2
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: auth-service
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/gateway/auth/**
+          filters:
+            - StripPrefix=1
+        - id: delivery-service
+          uri: lb://DELIVERY-SERVICE
+          predicates:
+            - Path=/gateway/deliveries/**
+          filters:
+            - StripPrefix=1
+        - id: tracking-service
+          uri: lb://TRACKING-SERVICE
+          predicates:
+            - Path=/gateway/tracking/**
+          filters:
+            - StripPrefix=1
+        - id: admin-service
+          uri: lb://ADMIN-SERVICE
+          predicates:
+            - Path=/gateway/admin/**
+          filters:
+            - StripPrefix=1
+        - id: auth-service-docs
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/gateway/auth/v3/api-docs
+          filters:
+            - StripPrefix=2
+        - id: delivery-service-docs
+          uri: lb://DELIVERY-SERVICE
+          predicates:
+            - Path=/gateway/deliveries/v3/api-docs
+          filters:
+            - StripPrefix=2
+        - id: tracking-service-docs
+          uri: lb://TRACKING-SERVICE
+          predicates:
+            - Path=/gateway/tracking/v3/api-docs
+          filters:
+            - StripPrefix=2
+        - id: admin-service-docs
+          uri: lb://ADMIN-SERVICE
+          predicates:
+            - Path=/gateway/admin/v3/api-docs
+          filters:
+            - StripPrefix=2
 
 management:
   endpoints:
@@ -87,10 +90,10 @@ springdoc:
     path: /swagger-ui.html
     urls:
       - name: auth-service
-        url: http://localhost:8081/v3/api-docs
+        url: /gateway/auth/v3/api-docs
       - name: delivery-service
-        url: http://localhost:8082/v3/api-docs
+        url: /gateway/deliveries/v3/api-docs
       - name: tracking-service
-        url: http://localhost:8083/v3/api-docs
+        url: /gateway/tracking/v3/api-docs
       - name: admin-service
-        url: http://localhost:8084/v3/api-docs
+        url: /gateway/admin/v3/api-docs
